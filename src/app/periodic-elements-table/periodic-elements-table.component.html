@@ -1,3 +1,10 @@
+<mat-form-field>
+  <input
+    matInput
+    [(ngModel)]="filterValue"
+    type="text"
+    (ngModelChange)="this.filterUpdate.next($event)">
+</mat-form-field>
 <table mat-table [dataSource]="dataSource">
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>

@@ -1,25 +1,53 @@
 import { Component } from '@angular/core';
-import { PeriodicElement } from '../_models/periodicElement';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from "rxjs/operators";
+import { FormsModule } from '@angular/forms';
+
+import { PeriodicElement } from '../_models/periodicElement';
 
 @Component({
   selector: 'app-periodic-elements-table',
   standalone: true,
-  imports: [MatTableModule, CommonModule],
+  imports: [
+    MatTableModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule],
   templateUrl: './periodic-elements-table.component.html',
   styleUrl: './periodic-elements-table.component.css'
 })
 export class PeriodicElementsTableComponent {
-  dataSource = ELEMENT_DATA.map(function (item) {
+  private readonly debounceTimeMs = 2000;
+
+  filterValue: string = '';
+  filterUpdate = new Subject<string>();
+  dataSource = new MatTableDataSource(ELEMENT_DATA.map(function (item) {
     return {
       Number: item.position,
       Name: item.name,
       Weight: item.weight,
       Symbol: item.symbol
     };
-  });
+  }));
   columns = ['Number', 'Name', 'Weight', 'Symbol'];
+
+  constructor() {
+    this.filterUpdate.pipe(
+      debounceTime(this.debounceTimeMs),
+      distinctUntilChanged())
+      .subscribe(value => {
+        this.applyFilter(value);
+      });
+  }
+
+  private applyFilter(filterValue: string): void {
+    this.dataSource.filter = filterValue;
+  }
 }
 
 const ELEMENT_DATA: PeriodicElement[] = [
