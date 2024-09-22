@@ -5,12 +5,15 @@
     type="text"
     (ngModelChange)="this.filterUpdate.next($event)">
 </mat-form-field>
-<table mat-table [dataSource]="dataSource">
+<table mat-table [dataSource]="dataSource" >
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columns">
     <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-    <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+    <td mat-cell *matCellDef="let element">
+      {{element[column]}}
+    </td>
   </ng-container>
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-  <tr mat-row *matRowDef="let element; columns: columns;">
-  </tr>
+  <ng-container matColumnDef="editButton">
+	</ng-container>
+	<tr mat-header-row *matHeaderRowDef="columns"></tr>
+	<tr mat-row *matRowDef="let row; columns: columns;" (click)="openDialog(row)" (submitClicked)="dataChanged(($any($event.target).value))"></tr>
 </table>

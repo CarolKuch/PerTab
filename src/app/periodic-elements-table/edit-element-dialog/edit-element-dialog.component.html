@@ -1,0 +1,19 @@
+<h2 mat-dialog-title>Edit periodic element</h2>
+<mat-dialog-content class="mat-typography"  name="fieldName" ngDefaultControl>
+  <h3>Edit periodic element</h3>
+
+    <form [formGroup]="this.myForm">
+      <div *ngFor="let valuePair of data | keyvalue">
+        Key: <b></b> and Value: <b></b>
+      <mat-form-field class="example-full-width">
+        <mat-label>{{valuePair.key}}</mat-label>
+        <input matInput value="{{valuePair.value}}" formControlName="{{valuePair.key}}" type="text">
+      </mat-form-field>
+    </div>
+    <mat-dialog-actions align="end">
+      <button mat-button mat-dialog-close>Cancel</button>
+      <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onSubmit()">Save</button>
+    </mat-dialog-actions>
+    </form>
+
+</mat-dialog-content>
