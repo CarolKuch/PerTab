@@ -12,6 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditElementDialogComponent } from './edit-element-dialog/edit-element-dialog.component';
 
+
 @Component({
   selector: 'app-periodic-elements-table',
   standalone: true,
@@ -20,6 +21,7 @@ import { EditElementDialogComponent } from './edit-element-dialog/edit-element-d
     CommonModule,
     MatFormFieldModule,
     MatInputModule,
+
     FormsModule,
     MatButtonModule,
     MatDialogModule
@@ -29,6 +31,7 @@ import { EditElementDialogComponent } from './edit-element-dialog/edit-element-d
 })
 export class PeriodicElementsTableComponent {
   private readonly debounceTimeMs = 2000;
+
   readonly dialog = inject(MatDialog);
 
   filterValue: string = '';
@@ -43,6 +46,7 @@ export class PeriodicElementsTableComponent {
       Symbol: item.symbol,
     };
   }));
+
   columns = ['Id', 'Number', 'Name', 'Weight', 'Symbol'];
 
   constructor() {
@@ -53,7 +57,7 @@ export class PeriodicElementsTableComponent {
         this.applyFilter(value);
       });
   }
-
+  
   openDialog(row: any) {
     this.dialog.open(EditElementDialogComponent, {
       data: row
